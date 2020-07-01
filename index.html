@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Minimal Popup Sample</title>
+  <meta charset="utf-8" content="font-src: 'self' data: img-src 'self' data: default-src 'self'" />
+  <script src="https://cdn.auth0.com/js/auth0/9.13.3/auth0.min.js"></script>
+</head>
+
+<body>
+  <div>
+    <button id="login">Login</button>
+  </div>
+
+  <script type="text/javascript">
+    let webAuth = null;
+
+    fetch("/auth_config.json")
+      .then(r => r.json())
+      .then(c => webAuth = new auth0.WebAuth({
+        domain: c.domain,
+        clientID: c.clientId
+      }));
+
+    document.getElementById("login").addEventListener("click", () => {
+      console.log("login!");
+      const authorizeParams = {
+        redirectUri: window.location.href + "callback",
+        responseType: "id_token"
+      };
+
+      webAuth.popup.authorize(authorizeParams, (err, result) => {
+        if (err) alert(JSON.stringify(err));
+
+        console.log(result);
+      });
+    })
+  </script>
+</body>
+
+</html>

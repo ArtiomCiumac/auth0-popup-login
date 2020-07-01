@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="utf-8" content="font-src: 'self' data: img-src 'self' data: default-src 'self'" />
+    <script src="https://cdn.auth0.com/js/auth0/9.13.3/auth0.min.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+
+        fetch("/auth_config.json")
+            .then(r => r.json())
+            .then(c => new auth0.WebAuth({
+                domain: c.domain,
+                clientID: c.clientId
+            }))
+            .then(webAuth => webAuth.popup.callback());
+
+    </script>
+</body>
+
+</html>
